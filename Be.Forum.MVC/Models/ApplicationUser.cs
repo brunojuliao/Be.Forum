@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace Be.Forum.MVC.Models
-{
-    // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser
-    {
-    }
+namespace Be.Forum.MVC.Models {
+  // Add profile data for application users by adding properties to the ApplicationUser class
+  public class ApplicationUser : IdentityUser {
+    //
+    // Summary:
+    //     Gets or sets the NIckname for the user.
+    public string Nickname { get; set; }
+  }
 }
