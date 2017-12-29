@@ -36,6 +36,7 @@ namespace Be.Forum.MVC.Controllers {
       }
 
       var post = await _context.Posts
+          .Include(p => p.User)
           .SingleOrDefaultAsync(m => m.Id == id);
       if (post == null) {
         return NotFound();
