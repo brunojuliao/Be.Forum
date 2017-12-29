@@ -1,0 +1,18 @@
+﻿@model Be.Forum.MVC.Models.PostViewModels.PartialListItemPostViewModel
+
+<br/>
+<a asp-action="Details" asp-controller="Post" asp-route-id="@Model.Item.Id">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">@Html.DisplayNameFor(model => model.Item.Title) @Html.DisplayFor(model => model.Item.Title)</h3>
+      <span class="badge">@Model.Item.ChildrenCount</span>
+    </div>
+    <div class="panel-body @((Model.Index & 1) == 1 ? "odd" : "even")">
+        <div>
+          <strong>@Html.DisplayNameFor(model => model.Item.Created)</strong> @Html.DisplayFor(model => model.Item.Created) |
+          <strong>@Html.DisplayNameFor(model => model.Item.Updated)</strong> @Html.DisplayFor(model => model.Item.Updated) |
+          <strong>@Html.DisplayNameFor(model => model.Item.User)</strong> @Html.DisplayFor(model => model.Item.User)
+        </div>
+    </div>
+  </div>
+</a>

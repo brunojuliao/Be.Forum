@@ -1,0 +1,8 @@
+﻿@using Be.Forum.MVC.Models.PostViewModels;
+
+@model List<ListItemPostViewModel>
+
+@for (var i = 0; i < Model.Count; i++) {
+  var item = Model[i];
+  @await Html.PartialAsync("_HomeItemPartial", new PartialListItemPostViewModel(i, item))
+}
