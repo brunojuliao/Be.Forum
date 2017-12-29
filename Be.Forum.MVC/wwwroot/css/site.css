@@ -33,3 +33,16 @@
         display: none;
     }
 }
+
+.odd {
+  background-color: #ebebeb;
+}
+
+h3.panel-title {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+hr {
+  border-top-color: #333;
+}

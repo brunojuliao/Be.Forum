@@ -25,6 +25,9 @@ namespace Be.Forum.MVC.Controllers {
     public async Task<IActionResult> Index() {
       return View(await _context.Posts
         .Include(p => p.User)
+        .Include(p => p.Children)
+        .Where(p => p.ParentId == null)
+        .OrderByDescending(p => p.Updated)
         .Select(p => new ListItemPostViewModel(p))
         .ToListAsync());
     }
@@ -37,6 +40,7 @@ namespace Be.Forum.MVC.Controllers {
 
       var post = await _context.Posts
           .Include(p => p.User)
+          .Include(p => p.Children)
           .SingleOrDefaultAsync(m => m.Id == id);
       if (post == null) {
         return NotFound();
@@ -47,7 +51,8 @@ namespace Be.Forum.MVC.Controllers {
     }
 
     // GET: Post/Create
-    public IActionResult Create() {
+    public IActionResult Create(int? ParentId) {
+      ViewBag.ParentId = ParentId;
       return View();
     }
 
@@ -56,7 +61,9 @@ namespace Be.Forum.MVC.Controllers {
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,Content")] PostViewModel postView) {
+    public async Task<IActionResult> Create(int? ParentId, [Bind("Id,Title,Content")] PostViewModel postView) {
+      ViewBag.ParentId = ParentId;
+
       if (!ModelState.IsValid)
         return View(postView);
 
@@ -64,6 +71,7 @@ namespace Be.Forum.MVC.Controllers {
       postView.CopyDataToModel(post);
       post.Created = post.Updated = DateTime.Now;
       post.UserId = _userManager.GetUserId(User);
+      post.ParentId = ParentId;
 
       _context.Add(post);
       await _context.SaveChangesAsync();
@@ -139,7 +147,7 @@ namespace Be.Forum.MVC.Controllers {
         return Forbid();
       }
 
-      return View(post);
+      return View(new PostViewModel(post));
     }
 
     // POST: Post/Delete/5

@@ -1,24 +1,26 @@
-﻿@model Be.Forum.MVC.Models.PostViewModels.DetailPostViewModel
+﻿@using Be.Forum.MVC.Models.PostViewModels
 
-  <div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-      <dt>
-        @Html.DisplayNameFor(model => model.Title)
-      </dt>
-      <dd>
-        @Html.DisplayFor(model => model.Title)
-      </dd>
-      <dt>
-        @Html.DisplayNameFor(model => model.Content)
-      </dt>
-      <dd>
-        @Html.DisplayFor(model => model.Content)
-      </dd>
-    </dl>
+@model DetailPostViewModel
+
+<div>
+  <h1>@Html.DisplayFor(model => model.Title)</h1>
+  <hr />
+  <a asp-area="" asp-controller="Post" asp-action="Create" asp-route-ParentId="@Model.Id" class="btn btn-default">New reply</a><br /><br />
+
+  <div class="container">
+    @await Html.PartialAsync("_ItemPartial", new PartialDetailPostViewModel(0, Model))
+    <br />
+    @for (var i = 0; i < Model.Children.Count; i++) {
+      var item = Model.Children[i];
+      @await Html.PartialAsync("_ItemPartial", new PartialDetailPostViewModel(i + 1, item))
+      <br />
+    }
   </div>
-  <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-  </div>
+
+  <a asp-area="" asp-controller="Post" asp-action="Create" asp-route-ParentId="@Model.Id" class="btn btn-default">New reply</a>
+</div>
+<br />
+<div>
+  <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+  <a asp-action="Index">Back to List</a>
+</div>

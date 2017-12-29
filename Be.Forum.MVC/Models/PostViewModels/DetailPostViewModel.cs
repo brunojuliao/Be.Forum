@@ -1,5 +1,7 @@
 ﻿using Be.Forum.MVC.Data.Entities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Be.Forum.MVC.Models.PostViewModels {
   public class DetailPostViewModel : PostViewModel {
@@ -13,6 +15,8 @@ namespace Be.Forum.MVC.Models.PostViewModels {
     public string UserId { get; set; }
     public string User { get; set; }
 
+    public List<DetailPostViewModel> Children { get; set; }
+
     public new void CopyDataFromModel(Post post) {
       if (string.IsNullOrEmpty(this.Title))
         base.CopyDataFromModel(post);
@@ -21,6 +25,8 @@ namespace Be.Forum.MVC.Models.PostViewModels {
       this.User = post.User.Nickname ?? post.User.UserName;
       this.Created = post.Created;
       this.Updated = post.Updated;
+
+      this.Children = (post.Children ?? new List<Post>()).Select(p => new DetailPostViewModel(p)).ToList();
     }
   }
 }

@@ -1,0 +1,30 @@
+﻿@model Be.Forum.MVC.Models.PostViewModels.PartialDetailPostViewModel
+
+@inject UserManager<ApplicationUser> userManager;
+
+@{
+  var userId = userManager.GetUserId(User);
+}
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    @if (Model.Index != 0) {
+      <h3 class="panel-title">@Html.DisplayNameFor(model => model.Item.Title) @Html.DisplayFor(model => model.Item.Title)</h3>
+    }
+    @if (Model.Item.UserId == userId) {
+      <a asp-area="" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Item.Id" class="btn btn-default">Edit</a>
+      <a asp-area="" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Item.Id" class="btn btn-danger">Delete</a>
+    }
+  </div>
+  <div class="panel-body @((Model.Index & 1) == 1 ? "odd" : "even")">
+    <div>
+      @Html.DisplayFor(model => model.Item.Content)
+    </div>
+    <hr />
+    <div>
+      <strong>@Html.DisplayNameFor(model => model.Item.Created)</strong> @Html.DisplayFor(model => model.Item.Created) |
+      <strong>@Html.DisplayNameFor(model => model.Item.Updated)</strong> @Html.DisplayFor(model => model.Item.Updated) |
+      <strong>@Html.DisplayNameFor(model => model.Item.User)</strong> @Html.DisplayFor(model => model.Item.User)
+    </div>
+  </div>
+</div>
