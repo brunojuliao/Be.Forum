@@ -8,9 +8,7 @@
 
 <div class="panel panel-primary">
   <div class="panel-heading">
-    @if (Model.Index != 0) {
-      <h3 class="panel-title">@Html.DisplayNameFor(model => model.Item.Title) @Html.DisplayFor(model => model.Item.Title)</h3>
-    }
+    <h3 class="panel-title">@(Model.Index == 0 ? Html.Raw("&nbsp;") : Html.DisplayFor(model => model.Item.Title))</h3>
     @if (Model.Item.UserId == userId) {
       <a asp-area="" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Item.Id" class="btn btn-default">Edit</a>
       <a asp-area="" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Item.Id" class="btn btn-danger">Delete</a>
