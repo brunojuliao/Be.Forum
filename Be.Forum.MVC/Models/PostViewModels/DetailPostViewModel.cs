@@ -22,7 +22,7 @@ namespace Be.Forum.MVC.Models.PostViewModels {
         base.CopyDataFromModel(post);
 
       this.UserId = post.UserId;
-      this.User = post.User.Nickname ?? post.User.UserName;
+      this.User = post.User?.Nickname ?? post.User?.UserName;
       this.Created = post.Created;
       this.Updated = post.Updated;
 

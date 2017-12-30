@@ -39,12 +39,26 @@ namespace Be.Forum.MVC.Controllers {
       }
 
       var post = await _context.Posts
-          .Include(p => p.User)
-          .Include(p => p.Children)
+          //.Include(p => p.User)
+          //.Include(p => p.Children)
+          //  .ThenInclude(p => p.)
           .SingleOrDefaultAsync(m => m.Id == id);
       if (post == null) {
         return NotFound();
       }
+
+      await _context.Entry(post)
+        .Collection(p => p.Children)
+        .LoadAsync();
+
+      await _context.Entry(post)
+        .Reference(p => p.User)
+        .LoadAsync();
+      
+      foreach(var item in post.Children)
+        await _context.Entry(item)
+          .Reference(p => p.User)
+          .LoadAsync();
 
       var postView = new DetailPostViewModel(post);
       return View(postView);
